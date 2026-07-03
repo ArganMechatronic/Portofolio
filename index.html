@@ -12,6 +12,7 @@
             --link: #0066cc;
             --border: #eaeaea;
             --placeholder-bg: #f5f5f5;
+            --hover-bg: #fafafa;
         }
         @media (prefers-color-scheme: dark) {
             :root {
@@ -21,6 +22,7 @@
                 --link: #4da6ff;
                 --border: #2c2c2c;
                 --placeholder-bg: #1a1a1a;
+                --hover-bg: #181818;
             }
         }
         body {
@@ -87,19 +89,48 @@
             color: var(--meta);
             margin-bottom: 30px;
         }
+        
+        /* Interactive Cards */
         .card {
             display: flex;
             gap: 25px;
             align-items: flex-start;
             margin-bottom: 40px;
-            padding-bottom: 40px;
+            padding: 20px 0 40px 0;
             border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: background 0.2s ease;
+            border-radius: 8px;
+        }
+        .card:hover {
+            background: var(--hover-bg);
         }
         .card:last-child {
             border-bottom: none;
         }
+
+        /* Active Project Highlight */
+        .card.active-project {
+            border: 2px solid #22c55e;
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.15);
+            padding: 20px;
+            position: relative;
+        }
+        .card.active-project::before {
+            content: "CURRENTLY WORKING ON";
+            position: absolute;
+            top: -12px;
+            right: 20px;
+            background: #22c55e;
+            color: #fff;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 4px;
+            letter-spacing: 0.05em;
+        }
         
-        /* Media box allowing natural height */
+        /* Media box */
         .media-box {
             width: 300px;
             flex-shrink: 0;
@@ -114,7 +145,7 @@
             display: block;
         }
         .media-box iframe {
-            aspect-ratio: 16 / 9; /* Keep iframe standard video ratio */
+            aspect-ratio: 16 / 9;
         }
         .media-placeholder-text {
             width: 100%;
@@ -153,6 +184,10 @@
             margin: 0;
             font-size: 0.95rem;
         }
+        .project-description ul {
+            margin: 10px 0 0 0;
+            padding-left: 20px;
+        }
 
         /* Tags */
         .tag {
@@ -172,6 +207,74 @@
             .tag-work { background: #0c2a47; color: #64b5f6; }
             .tag-personal { background: #133318; color: #81c784; }
             .tag-school { background: #2f1442; color: #ba68c8; }
+        }
+
+        /* Hidden Gallery System */
+        .expand-hint {
+            display: inline-block;
+            margin-top: 15px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--link);
+        }
+        .card.expanded .expand-hint::before {
+            content: "Hide Media ▲";
+        }
+        .card:not(.expanded) .expand-hint::before {
+            content: "View Gallery ▼";
+        }
+        .gallery {
+            display: none;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+            width: 100%;
+        }
+        .card.expanded .gallery {
+            display: grid;
+        }
+        .gallery img, .gallery iframe {
+            width: 100%;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+        }
+        .gallery img {
+            height: 90px;
+            object-fit: cover;
+            transition: transform 0.2s ease;
+        }
+        .gallery iframe {
+            aspect-ratio: 9 / 16;
+            height: auto;
+        }
+        .gallery img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        /* Lightbox (Image Viewer) */
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.85);
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .lightbox.visible {
+            display: flex;
+        }
+        .lightbox img {
+            max-width: 90vw;
+            max-height: 90vh;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            object-fit: contain;
         }
 
         /* Paused State */
@@ -194,6 +297,7 @@
             .card {
                 flex-direction: column;
                 gap: 15px;
+                padding: 15px;
             }
             .media-box {
                 width: 100%;
@@ -207,9 +311,9 @@
         <img src="media/profile.jpg" alt="Argan Corvisy" class="profile-pic">
         <div class="header-content">
             <h1>Argan Corvisy</h1>
-            <p class="subtitle">Mechatronics & Software Engineer</p>
+            <p class="subtitle">Mechatronics Engineer | Software & Hardware Integration</p>
             <p class="profile-description">
-                I am a mechatronics engineer with three years of experience in industrial robotics, specializing in embedded systems[cite: 1]. Having recently relocated to New Zealand to join my family, I am eager to contribute to innovative projects while further developing my expertise in programming and software architecture[cite: 1].
+                Mechatronics Engineer with over three years of experience integrating and testing complex hardware-software systems in Linux environments. Specializing in C++ and Python, with a proven track record of developing automation tools, designing test benches, and performing rigorous electrical diagnostics. Seeking to apply multidisciplinary troubleshooting and software architecture expertise to highly reliable aerospace and autonomous platforms.
             </p>
             <div class="links">
                 <a href="https://github.com/ArganMechatronic" target="_blank">GitHub</a>
@@ -222,120 +326,246 @@
     <section id="projects">
         <h2>Engineering Projects & Experience</h2>
 
-        <!-- Current / 2026 -->
-        <div class="card">
+        <div class="card active-project">
             <div class="media-box">
-                <!-- REPLACE THIS DIV WITH: <img src="media/sudoku.gif" alt="Sudoku Solver"> -->
                 <div class="media-placeholder-text">[ Insert GIF / Photo Here ]</div>
             </div>
             <div class="content-box">
-                <p class="project-title">Multi-Threaded C++ Sudoku Solver <span class="tag tag-personal">Personal</span></p>
-                <p class="project-meta">2026 | C++ / Multi-threading / Algorithms</p>
-                <p class="project-description">Developing a concurrent solver to evaluate multiple algorithms executing on independent threads. Exploring practical thread synchronization, mutexes, and efficient memory resource sharing in modern C++.</p>
+                <div class="project-title">Multi-Threaded C++ Sudoku Solver <span class="tag tag-personal">Personal</span></div>
+                <div class="project-meta">2026 | C++ / Multi-threading / Algorithms</div>
+                <div class="project-description">
+                    Developing a concurrent solver to evaluate multiple algorithms executing on independent threads. Exploring practical thread synchronization, mutexes, and efficient memory resource sharing in modern C++.
+                </div>
             </div>
         </div>
 
-        <!-- Current / 2026 -->
-        <div class="card">
+        <div class="card active-project">
             <div class="media-box">
                 <img src="media/drone.gif" alt="FPV Drone">
             </div>
             <div class="content-box">
-                <p class="project-title">Custom FPV Drone Build <span class="tag tag-personal">Personal</span></p>
-                <p class="project-meta">2026 | Hardware Assembly / Electronics / FPV</p>
-                <p class="project-description">Assembling and configuring a custom Ukrainian FPV drone frame. Managing high-current power distribution, flight controller electronics integration, and tuning radio frequency transmission systems.</p>
+                <div class="project-title">Custom FPV Drone Build <span class="tag tag-personal">Personal</span></div>
+                <div class="project-meta">2026 | Hardware Assembly / Electronics / FPV</div>
+                <div class="project-description">
+                    Assembling and configuring a custom Ukrainian FPV drone frame for flight training and accessory development. Managing high-current power distribution, flight controller electronics integration, and tuning radio frequency transmission systems.
+                </div>
+                <span class="expand-hint"></span>
+                <div class="gallery">
+                    <iframe src="https://www.youtube.com/embed/epfUFKaZ6_o" title="Drone Short 1" frameborder="0" allowfullscreen></iframe>
+                    <iframe src="https://www.youtube.com/embed/z1txzolBsYY" title="Drone Short 2" frameborder="0" allowfullscreen></iframe>
+                    <iframe src="https://www.youtube.com/embed/8795gX6dO7c" title="Drone Short 3" frameborder="0" allowfullscreen></iframe>
+                    <iframe src="https://www.youtube.com/embed/-MPPZaTvRXQ" title="Drone Short 4" frameborder="0" allowfullscreen></iframe>
+                </div>
             </div>
         </div>
 
-        <!-- 2025 to 2026 -->
         <div class="card">
             <div class="media-box">
-                <img src="media/platform.gif" alt="Platform">
+                <img src="media/platform_working.gif" alt="Platform">
             </div>
             <div class="content-box">
-                <p class="project-title">AGV Harvesting Platform <span class="tag tag-work">Work</span></p>
-                <p class="project-meta">2025 to 2026 | LeaderBrand | C++ / OpenCV / UDP / MQTT</p>
-                <p class="project-description">Refactored software architecture and OpenCV vision pipelines for an automated harvesting vehicle, logging over 20km in autonomous testing. Developed a modular C++ UDP/MQTT software bridge.</p>
+                <div class="project-title">AGV Harvesting Platform <span class="tag tag-work">Work</span></div>
+                <div class="project-meta">2025 to 2026 | LeaderBrand | C++ / OpenCV / UDP / MQTT</div>
+                <div class="project-description">
+                    <ul>
+                        <li>Refactored the software architecture and OpenCV vision pipeline within a 120K SLOC codebase, leading to over 20km of automated testing.</li>
+                        <li>Developed a flexible C++ software bridge combining UDP and MQTT based on two design patterns.</li>
+                        <li>Implemented a new documentation architecture and software workflow to prevent regressions.</li>
+                        <li>Conducted an electrical inventory of the prototype, identifying and resolving hardware failures.</li>
+                    </ul>
+                </div>
+                <span class="expand-hint"></span>
+                <div class="gallery">
+                    <img src="media/platform.gif" alt="platform_test">
+                    <img src="media/platform_ros.gif" alt="platform ros">
+                </div>
             </div>
         </div>
 
-        <!-- 2025 to 2026 -->
         <div class="card">
             <div class="media-box">
                 <img src="media/rover.gif" alt="Rover">
             </div>
             <div class="content-box">
-                <p class="project-title">Mechanical Integration of Autonomous Rover <span class="tag tag-work">Work</span></p>
-                <p class="project-meta">2025 to 2026 | LeaderBrand </p>
-                <p class="project-description">Supported an existing 4-wheeled rover project, designed electrical power distribution schematics involving fuses and relays while managing electromechanical integration.</p>
+                <div class="project-title">Mechanical Integration of Autonomous Rover <span class="tag tag-work">Work</span></div>
+                <div class="project-meta">2025 to 2026 | LeaderBrand</div>
+                <div class="project-description">
+                    Supported an existing multipurpose 4-wheeled rover project. Designed electrical power distribution schematics involving fuses and relays while managing electromechanical integration of onboard components.
+                </div>
+                <span class="expand-hint"></span>
+                <div class="gallery">
+                    <iframe src="https://www.youtube.com/embed/Rhs3wu4LfIY" title="Rover Short" frameborder="0" allowfullscreen></iframe>
+                </div>
             </div>
         </div>
 
-        <!-- 2025 (Paused) -->
         <div class="card paused-project">
             <div class="media-box">
-                <!-- REPLACE THIS DIV WITH: <img src="media/freertos.jpg" alt="Raspberry Pi Pico FreeRTOS"> -->
-                <div class="media-placeholder-text">[ Insert GIF / Photo Here ]</div>
+                <img src="media/pi_pico.jpg" alt="Raspberry">
             </div>
             <div class="content-box">
-                <p class="project-title">FreeRTOS Real-Time Scheduling <span class="tag tag-personal">Personal</span> <span class="tag" style="background:#555; color:#fff;">On Hold</span></p>
-                <p class="project-meta">2025 | Embedded C / FreeRTOS / RP2040</p>
-                <p class="project-description">Implemented custom task scheduling and real-time operating system concepts by porting FreeRTOS to a Raspberry Pi Pico microcontroller. Project currently paused to prioritize concurrent C++ software architecture.</p>
+                <div class="project-title">FreeRTOS Real-Time Scheduling <span class="tag tag-personal">Personal</span> <span class="tag" style="background:#555; color:#fff;">On Hold</span></div>
+                <div class="project-meta">2025 | Embedded C / FreeRTOS / RP2040</div>
+                <div class="project-description">
+                    Implemented custom task scheduling and real-time operating system concepts by porting FreeRTOS to a Raspberry Pi Pico microcontroller. Project currently paused to prioritize concurrent C++ software architecture.
+                </div>
             </div>
         </div>
 
-        <!-- 2022 to 2025 -->
         <div class="card">
             <div class="media-box">
-                <iframe src="https://www.youtube.com/embed/A7SbZuiYZvM" title="Luci-Flow Project" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/A7SbZuiYZvM" title="LUCI-Flow Project" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
             <div class="content-box">
-                <p class="project-title">Luci-Flow Automated Logistics System <span class="tag tag-work">Work</span></p>
-                <p class="project-meta">2022 to 2025 | Fives Xcella | Robotics / Automation</p>
-                <p class="project-description">Contributed to the engineering, testing, and deployment of the Luci-Flow automated robotic system for high-efficiency industrial intralogistics and material handling.</p>
+                <div class="project-title">LUCI-Flow Warehouse Automation <span class="tag tag-work">Work</span></div>
+                <div class="project-meta">2021 to 2025 | Fives Xcella | Robotics / Automation</div>
+                <div class="project-description">
+                    <ul>
+                        <li>Led technical collaboration to achieve repeatable, sub-centimeter autonomous docking precision.</li>
+                        <li>Applied computer vision (OpenCV, ArUco markers) to automatically track robot pose and evaluate docking consistency quantitatively.</li>
+                        <li>Halved robot start-up time and reduced manual intervention by refactoring localization architecture.</li>
+                        <li>Optimized internal 2D maps for enhanced Lidar data utilization and developed Python scripts for rapid statistical reporting on test benches.</li>
+                        <li>Developed a ROS2 Gazebo digital twin and automated Linux deployment for a 5-robot fleet.</li>
+                    </ul>
+                </div>
             </div>
         </div>
 
-        <!-- 2021 -->
         <div class="card">
             <div class="media-box">
-                <!-- REPLACE THIS DIV WITH: <img src="media/holonomic.jpg" alt="Holonomic Robot"> -->
-                <div class="media-placeholder-text">[ Insert GIF / Photo Here ]</div>
+                <img src="media/forklift_manufacturing.gif" alt="forklift_manufacturing">
             </div>
             <div class="content-box">
-                <p class="project-title">Holonomic Mobile Robot with Forklift <span class="tag tag-school">School</span></p>
-                <p class="project-meta">2021 | ENSIBS | Robotics / Kinematics / CAD</p>
-                <p class="project-description">Designed and prototyped an omnidirectional mobile robot featuring custom holonomic wheel kinematics and an integrated, functional forklift lifting mechanism during engineering studies.</p>
+                <div class="project-title">Holonomic Mobile Robot with Forklift <span class="tag tag-school">School</span></div>
+                <div class="project-meta">2021 | ENSIBS | Robotics / Kinematics / CAD</div>
+                <div class="project-description">
+                    Designed and prototyped an omnidirectional mobile robot featuring custom holonomic wheel kinematics and an integrated, functional forklift lifting mechanism during engineering studies.
+                </div>
+                <span class="expand-hint"></span>
+                <div class="gallery">
+                    <img src="media/electronic_board_prototyping.jpg" alt="boards">
+                    <img src="media/base_holonome_ensibs.gif" alt="base holonome">
+                </div>
             </div>
         </div>
 
-        <!-- 2018 -->
         <div class="card">
             <div class="media-box">
-                <!-- REPLACE THIS DIV WITH: <img src="media/restoration.jpg" alt="Motorcycle and Peugeot Restoration"> -->
-                <div class="media-placeholder-text">[ Insert GIF / Photo Here ]</div>
+                <img src="media/hema_caper.jpg" alt="caper">
             </div>
             <div class="content-box">
-                <p class="project-title">Classic Motorcycle & Peugeot 201 Restoration <span class="tag tag-personal">Personal</span></p>
-                <p class="project-meta">2018 | Mechanical Engineering / Engine Rebuilds</p>
-                <p class="project-description">Executed complete mechanical restorations on vintage combustion engines and drivetrains, restoring an 1980s motorcycle and a classic pre-war Peugeot 201 to working order.</p>
+                <div class="project-title">Rotary Capper Turret Redesign <span class="tag tag-school">School</span> <span class="tag tag-work">Work</span></div>
+                <div class="project-meta">2021 | Hema Filler Internship | Mechanical Engineering / SolidWorks</div>
+                <div class="project-description">
+                    Using SolidWorks, redesigned the mechanical components of a US rotary capper to meet company standards. Ensured compliance with technical requirements to improve production efficiency.
+                </div>
             </div>
         </div>
 
-        <!-- 2017 -->
         <div class="card">
             <div class="media-box">
-                <!-- REPLACE THIS DIV WITH: <img src="media/porsche.jpg" alt="Porsche Lorient Racing"> -->
-                <div class="media-placeholder-text">[ Insert GIF / Photo Here ]</div>
+                <img src="media/peugeot_201.jpg" alt="peugeot_201">
             </div>
             <div class="content-box">
-                <p class="project-title">Motorsport Engineering Internship <span class="tag tag-work">Work</span></p>
-                <p class="project-meta">2017 | Porsche Lorient Racing | Competition Operations</p>
-                <p class="project-description">Embedded with the race team in the paddock during high-level competitive motorsport weekends. Assisted with mechanical preparation, telemetry analysis, and rapid pit-lane vehicle maintenance.</p>
+                <div class="project-title">Help to restore a 1929 Peugeot 201<span class="tag tag-personal">Personal</span></div>
+                <div class="project-meta">2021 | Mechanical Engineering / Engine Rebuilds</div>
+                <div class="project-description">
+                    Cleaning Parts full of 100 years old dirt.
+                </div>
+                <span class="expand-hint"></span>
+                <div class="gallery">
+                    <img src="media/peugeot_201_2.jpg" alt="parts">
+                    <img src="media/peugeot_201_3.jpg" alt="parts">
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="media-box">
+                <img src="media/kz250c.jpg" alt="kz250c">
+            </div>
+            <div class="content-box">
+                <div class="project-title">Restoration of a 1981 Kawasaki KZ250C<span class="tag tag-personal">Personal</span></div>
+                <div class="project-meta">2018 | Mechanical Engineering / Engine Rebuilds</div>
+                <div class="project-description">
+                    Executed complete mechanical restorations on vintage combustion engines and drivetrains, restoring an 1980s motorcycle and a classic pre-war Peugeot 201 to working order.
+                </div>
+                <span class="expand-hint"></span>
+                <div class="gallery">
+                    <img src="media/gearbox.jpg" alt="gearbox">
+                    <img src="media/faisceau.jpg" alt="faisceau">
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="media-box">
+                <div class="media-placeholder-text">[ Insert Photo Here ]</div>
+            </div>
+            <div class="content-box">
+                <div class="project-title">Technical Degree in Automobile Mechanics <span class="tag tag-school">School</span></div>
+                <div class="project-meta">2016 to 2018 | BTS Vehicle Maintenance</div>
+                <div class="project-description">
+                    Specialized in diagnostics, repair, and maintenance of vehicles, establishing a strong practical foundation in mechanical and electrical systems.
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="media-box">
+                <img src="media/porsche_fill.jpg" alt="porsche_fill">
+            </div>
+            <div class="content-box">
+                <div class="project-title">Motorsport Engineering Internship <span class="tag tag-work">Work</span></div>
+                <div class="project-meta">2017 | Porsche Lorient Racing | Competition Operations</div>
+                <div class="project-description">
+                    Embedded with the race team in the paddock during high-level competitive motorsport weekends. Assisted with mechanical preparation, telemetry analysis, and rapid pit-lane vehicle maintenance.
+                </div>
+                <span class="expand-hint"></span>
+                <div class="gallery">
+                    <img src="media/essence.jpg" alt="essence panneau">
+                </div>
             </div>
         </div>
 
     </section>
 
+    <div class="lightbox" id="lightbox">
+        <img src="" alt="Fullscreen view">
+    </div>
+
+    <script>
+        // 1. Logic to expand the card and show the gallery
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                // Ignore clicks if clicking on links, iframes, or the gallery images themselves
+                if(e.target.tagName.toLowerCase() === 'a' || 
+                   e.target.tagName.toLowerCase() === 'iframe' || 
+                   e.target.closest('.gallery') != null) {
+                    return;
+                }
+                
+                const gallery = card.querySelector('.gallery');
+                if(gallery) {
+                    card.classList.toggle('expanded');
+                }
+            });
+        });
+
+        // 2. Logic to handle the lightbox for enlarged images
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = lightbox.querySelector('img');
+
+        document.querySelectorAll('.gallery img').forEach(img => {
+            img.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevents the card from collapsing
+                lightboxImg.src = e.target.src;
+                lightbox.classList.add('visible');
+            });
+        });
+
+        lightbox.addEventListener('click', () => {
+            lightbox.classList.remove('visible');
+            lightboxImg.src = '';
+        });
+    </script>
 </body>
 </html>
