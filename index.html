@@ -32,12 +32,25 @@
             background: var(--bg);
             color: var(--text);
         }
+        
+        /* Profile Header */
         header {
             margin-bottom: 50px;
             border-bottom: 1px solid var(--border);
             padding-bottom: 30px;
+            display: flex;
+            gap: 25px;
+            align-items: center;
         }
-        h1 {
+        .profile-pic {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--border);
+            flex-shrink: 0;
+        }
+        .header-content h1 {
             font-size: 1.8rem;
             font-weight: 600;
             margin: 0 0 5px 0;
@@ -45,8 +58,13 @@
         }
         p.subtitle {
             color: var(--meta);
-            margin: 0 0 15px 0;
+            margin: 0 0 10px 0;
             font-size: 1.1rem;
+            font-weight: 500;
+        }
+        .profile-description {
+            font-size: 0.95rem;
+            margin: 0 0 15px 0;
         }
         .links a {
             margin-right: 20px;
@@ -59,6 +77,8 @@
         a:hover {
             text-decoration: underline;
         }
+        
+        /* Layout */
         h2 {
             font-size: 1.1rem;
             font-weight: 600;
@@ -78,32 +98,39 @@
         .card:last-child {
             border-bottom: none;
         }
+        
+        /* Media box allowing natural height */
         .media-box {
             width: 300px;
             flex-shrink: 0;
-            border-radius: 4px;
-            overflow: hidden;
-            background: var(--placeholder-bg);
-            border: 1px solid var(--border);
-            aspect-ratio: 16 / 10;
             display: flex;
-            align-items: center;
-            justify-content: center;
+            align-items: flex-start;
         }
         .media-box img, .media-box iframe {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border: none;
+            height: auto;
+            border-radius: 6px;
+            border: 1px solid var(--border);
             display: block;
         }
+        .media-box iframe {
+            aspect-ratio: 16 / 9; /* Keep iframe standard video ratio */
+        }
         .media-placeholder-text {
+            width: 100%;
+            aspect-ratio: 16 / 10;
+            background: var(--placeholder-bg);
             color: var(--meta);
             font-size: 0.8rem;
             font-family: monospace;
-            text-align: center;
-            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            border: 1px solid var(--border);
         }
+        
+        /* Project Content */
         .content-box {
             flex: 1;
         }
@@ -111,6 +138,10 @@
             font-weight: 600;
             font-size: 1.15rem;
             margin: 0 0 5px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
         }
         .project-meta {
             font-size: 0.85rem;
@@ -122,14 +153,50 @@
             margin: 0;
             font-size: 0.95rem;
         }
+
+        /* Tags */
+        .tag {
+            font-family: -apple-system, sans-serif;
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .tag-work { background: #e3f2fd; color: #1565c0; }
+        .tag-personal { background: #e8f5e9; color: #2e7d32; }
+        .tag-school { background: #f3e5f5; color: #7b1fa2; }
+        
+        @media (prefers-color-scheme: dark) {
+            .tag-work { background: #0c2a47; color: #64b5f6; }
+            .tag-personal { background: #133318; color: #81c784; }
+            .tag-school { background: #2f1442; color: #ba68c8; }
+        }
+
+        /* Paused State */
+        .paused-project {
+            opacity: 0.45;
+            filter: grayscale(100%);
+            transition: opacity 0.3s ease;
+        }
+        .paused-project:hover {
+            opacity: 0.8;
+            filter: grayscale(50%);
+        }
+
+        /* Responsive */
         @media (max-width: 680px) {
+            header {
+                flex-direction: column;
+                text-align: center;
+            }
             .card {
                 flex-direction: column;
                 gap: 15px;
             }
             .media-box {
                 width: 100%;
-                aspect-ratio: 16 / 9;
             }
         }
     </style>
@@ -137,12 +204,18 @@
 <body>
 
     <header>
-        <h1>Argan Corvisy</h1>
-        <p class="subtitle">Mechatronics & Software Engineer</p>
-        <div class="links">
-            <a href="https://github.com/ArganMechatronic" target="_blank">GitHub</a>
-            <a href="https://www.linkedin.com/in/argan-corvisy/" target="_blank">LinkedIn</a>
-            <a href="mailto:argan.cor@gmail.com">Email</a>
+        <img src="media/profile.jpg" alt="Argan Corvisy" class="profile-pic">
+        <div class="header-content">
+            <h1>Argan Corvisy</h1>
+            <p class="subtitle">Mechatronics & Software Engineer</p>
+            <p class="profile-description">
+                I am a mechatronics engineer with three years of experience in industrial robotics, specializing in embedded systems[cite: 1]. Having recently relocated to New Zealand to join my family, I am eager to contribute to innovative projects while further developing my expertise in programming and software architecture[cite: 1].
+            </p>
+            <div class="links">
+                <a href="https://github.com/ArganMechatronic" target="_blank">GitHub</a>
+                <a href="https://www.linkedin.com/in/argan-corvisy/" target="_blank">LinkedIn</a>
+                <a href="mailto:argan.cor@gmail.com">Email</a>
+            </div>
         </div>
     </header>
 
@@ -152,11 +225,11 @@
         <!-- Current / 2026 -->
         <div class="card">
             <div class="media-box">
-                <!-- REPLACE THIS DIV WITH: <img src="sudoku.gif" alt="Sudoku Solver"> -->
+                <!-- REPLACE THIS DIV WITH: <img src="media/sudoku.gif" alt="Sudoku Solver"> -->
                 <div class="media-placeholder-text">[ Insert GIF / Photo Here ]</div>
             </div>
             <div class="content-box">
-                <p class="project-title">Multi-Threaded C++ Sudoku Solver</p>
+                <p class="project-title">Multi-Threaded C++ Sudoku Solver <span class="tag tag-personal">Personal</span></p>
                 <p class="project-meta">2026 | C++ / Multi-threading / Algorithms</p>
                 <p class="project-description">Developing a concurrent solver to evaluate multiple algorithms executing on independent threads. Exploring practical thread synchronization, mutexes, and efficient memory resource sharing in modern C++.</p>
             </div>
@@ -165,11 +238,10 @@
         <!-- Current / 2026 -->
         <div class="card">
             <div class="media-box">
-                <!-- REPLACE THIS DIV WITH: <img src="drone.jpg" alt="FPV Drone"> -->
-                <img src="drone.gif" alt="FPV Drone">
+                <img src="media/drone.gif" alt="FPV Drone">
             </div>
             <div class="content-box">
-                <p class="project-title">Custom FPV Drone Build</p>
+                <p class="project-title">Custom FPV Drone Build <span class="tag tag-personal">Personal</span></p>
                 <p class="project-meta">2026 | Hardware Assembly / Electronics / FPV</p>
                 <p class="project-description">Assembling and configuring a custom Ukrainian FPV drone frame. Managing high-current power distribution, flight controller electronics integration, and tuning radio frequency transmission systems.</p>
             </div>
@@ -178,11 +250,10 @@
         <!-- 2025 to 2026 -->
         <div class="card">
             <div class="media-box">
-                <!-- REPLACE THIS DIV WITH: <img src="agv-rover.jpg" alt="LeaderBrand AGV and Rover"> -->
-                <img src="platform.gif" alt="Platform">
+                <img src="media/platform.gif" alt="Platform">
             </div>
             <div class="content-box">
-                <p class="project-title">AGV Harvesting Platform</p>
+                <p class="project-title">AGV Harvesting Platform <span class="tag tag-work">Work</span></p>
                 <p class="project-meta">2025 to 2026 | LeaderBrand | C++ / OpenCV / UDP / MQTT</p>
                 <p class="project-description">Refactored software architecture and OpenCV vision pipelines for an automated harvesting vehicle, logging over 20km in autonomous testing. Developed a modular C++ UDP/MQTT software bridge.</p>
             </div>
@@ -191,25 +262,23 @@
         <!-- 2025 to 2026 -->
         <div class="card">
             <div class="media-box">
-                <!-- REPLACE THIS DIV WITH: <img src="agv-rover.jpg" alt="LeaderBrand AGV and Rover"> -->
-                <img src="rover.gif" alt="Rover">
+                <img src="media/rover.gif" alt="Rover">
             </div>
             <div class="content-box">
-                <p class="project-title">Mechanical integration of Electronics components on a Autonomous Rover</p>
+                <p class="project-title">Mechanical Integration of Autonomous Rover <span class="tag tag-work">Work</span></p>
                 <p class="project-meta">2025 to 2026 | LeaderBrand </p>
                 <p class="project-description">Supported an existing 4-wheeled rover project, designed electrical power distribution schematics involving fuses and relays while managing electromechanical integration.</p>
             </div>
         </div>
 
-
         <!-- 2025 (Paused) -->
-        <div class="card">
+        <div class="card paused-project">
             <div class="media-box">
-                <!-- REPLACE THIS DIV WITH: <img src="freertos.jpg" alt="Raspberry Pi Pico FreeRTOS"> -->
+                <!-- REPLACE THIS DIV WITH: <img src="media/freertos.jpg" alt="Raspberry Pi Pico FreeRTOS"> -->
                 <div class="media-placeholder-text">[ Insert GIF / Photo Here ]</div>
             </div>
             <div class="content-box">
-                <p class="project-title">FreeRTOS Real-Time Scheduling</p>
+                <p class="project-title">FreeRTOS Real-Time Scheduling <span class="tag tag-personal">Personal</span> <span class="tag" style="background:#555; color:#fff;">On Hold</span></p>
                 <p class="project-meta">2025 | Embedded C / FreeRTOS / RP2040</p>
                 <p class="project-description">Implemented custom task scheduling and real-time operating system concepts by porting FreeRTOS to a Raspberry Pi Pico microcontroller. Project currently paused to prioritize concurrent C++ software architecture.</p>
             </div>
@@ -221,7 +290,7 @@
                 <iframe src="https://www.youtube.com/embed/A7SbZuiYZvM" title="Luci-Flow Project" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
             <div class="content-box">
-                <p class="project-title">Luci-Flow Automated Logistics System</p>
+                <p class="project-title">Luci-Flow Automated Logistics System <span class="tag tag-work">Work</span></p>
                 <p class="project-meta">2022 to 2025 | Fives Xcella | Robotics / Automation</p>
                 <p class="project-description">Contributed to the engineering, testing, and deployment of the Luci-Flow automated robotic system for high-efficiency industrial intralogistics and material handling.</p>
             </div>
@@ -230,11 +299,11 @@
         <!-- 2021 -->
         <div class="card">
             <div class="media-box">
-                <!-- REPLACE THIS DIV WITH: <img src="holonomic.jpg" alt="Holonomic Robot"> -->
+                <!-- REPLACE THIS DIV WITH: <img src="media/holonomic.jpg" alt="Holonomic Robot"> -->
                 <div class="media-placeholder-text">[ Insert GIF / Photo Here ]</div>
             </div>
             <div class="content-box">
-                <p class="project-title">Holonomic Mobile Robot with Forklift Mechanism</p>
+                <p class="project-title">Holonomic Mobile Robot with Forklift <span class="tag tag-school">School</span></p>
                 <p class="project-meta">2021 | ENSIBS | Robotics / Kinematics / CAD</p>
                 <p class="project-description">Designed and prototyped an omnidirectional mobile robot featuring custom holonomic wheel kinematics and an integrated, functional forklift lifting mechanism during engineering studies.</p>
             </div>
@@ -243,11 +312,11 @@
         <!-- 2018 -->
         <div class="card">
             <div class="media-box">
-                <!-- REPLACE THIS DIV WITH: <img src="restoration.jpg" alt="Motorcycle and Peugeot Restoration"> -->
+                <!-- REPLACE THIS DIV WITH: <img src="media/restoration.jpg" alt="Motorcycle and Peugeot Restoration"> -->
                 <div class="media-placeholder-text">[ Insert GIF / Photo Here ]</div>
             </div>
             <div class="content-box">
-                <p class="project-title">Classic Motorcycle & Peugeot 201 Restoration</p>
+                <p class="project-title">Classic Motorcycle & Peugeot 201 Restoration <span class="tag tag-personal">Personal</span></p>
                 <p class="project-meta">2018 | Mechanical Engineering / Engine Rebuilds</p>
                 <p class="project-description">Executed complete mechanical restorations on vintage combustion engines and drivetrains, restoring an 1980s motorcycle and a classic pre-war Peugeot 201 to working order.</p>
             </div>
@@ -256,11 +325,11 @@
         <!-- 2017 -->
         <div class="card">
             <div class="media-box">
-                <!-- REPLACE THIS DIV WITH: <img src="porsche.jpg" alt="Porsche Lorient Racing"> -->
+                <!-- REPLACE THIS DIV WITH: <img src="media/porsche.jpg" alt="Porsche Lorient Racing"> -->
                 <div class="media-placeholder-text">[ Insert GIF / Photo Here ]</div>
             </div>
             <div class="content-box">
-                <p class="project-title">Motorsport Engineering Internship</p>
+                <p class="project-title">Motorsport Engineering Internship <span class="tag tag-work">Work</span></p>
                 <p class="project-meta">2017 | Porsche Lorient Racing | Competition Operations</p>
                 <p class="project-description">Embedded with the race team in the paddock during high-level competitive motorsport weekends. Assisted with mechanical preparation, telemetry analysis, and rapid pit-lane vehicle maintenance.</p>
             </div>
