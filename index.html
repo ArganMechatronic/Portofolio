@@ -11,6 +11,7 @@
             --meta: #666666;
             --link: #0066cc;
             --border: #eaeaea;
+            --placeholder-bg: #f5f5f5;
         }
         @media (prefers-color-scheme: dark) {
             :root {
@@ -19,11 +20,12 @@
                 --meta: #888888;
                 --link: #4da6ff;
                 --border: #2c2c2c;
+                --placeholder-bg: #1a1a1a;
             }
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            max-width: 650px;
+            max-width: 800px;
             margin: 60px auto;
             padding: 0 20px;
             line-height: 1.6;
@@ -31,48 +33,24 @@
             color: var(--text);
         }
         header {
-            margin-bottom: 40px;
+            margin-bottom: 50px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 30px;
         }
         h1 {
-            font-size: 1.6rem;
+            font-size: 1.8rem;
             font-weight: 600;
-            margin-bottom: 5px;
+            margin: 0 0 5px 0;
             letter-spacing: -0.02em;
         }
         p.subtitle {
             color: var(--meta);
-            margin: 0;
-            font-size: 1.05rem;
-        }
-        section {
-            margin-bottom: 40px;
-        }
-        h2 {
+            margin: 0 0 15px 0;
             font-size: 1.1rem;
-            font-weight: 600;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 5px;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--meta);
         }
-        .project {
-            margin-bottom: 30px;
-        }
-        .project-title {
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin: 0;
-        }
-        .project-meta {
-            font-size: 0.85rem;
-            color: var(--meta);
-            margin: 0 0 8px 0;
-            font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
-        }
-        .project-description {
-            margin: 0 0 10px 0;
+        .links a {
+            margin-right: 20px;
+            font-weight: 500;
         }
         a {
             color: var(--link);
@@ -81,8 +59,78 @@
         a:hover {
             text-decoration: underline;
         }
-        .links a {
-            margin-right: 20px;
+        h2 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--meta);
+            margin-bottom: 30px;
+        }
+        .card {
+            display: flex;
+            gap: 25px;
+            align-items: flex-start;
+            margin-bottom: 40px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid var(--border);
+        }
+        .card:last-child {
+            border-bottom: none;
+        }
+        .media-box {
+            width: 300px;
+            flex-shrink: 0;
+            border-radius: 4px;
+            overflow: hidden;
+            background: var(--placeholder-bg);
+            border: 1px solid var(--border);
+            aspect-ratio: 16 / 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .media-box img, .media-box iframe {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border: none;
+            display: block;
+        }
+        .media-placeholder-text {
+            color: var(--meta);
+            font-size: 0.8rem;
+            font-family: monospace;
+            text-align: center;
+            padding: 10px;
+        }
+        .content-box {
+            flex: 1;
+        }
+        .project-title {
+            font-weight: 600;
+            font-size: 1.15rem;
+            margin: 0 0 5px 0;
+        }
+        .project-meta {
+            font-size: 0.85rem;
+            color: var(--meta);
+            margin: 0 0 12px 0;
+            font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+        }
+        .project-description {
+            margin: 0;
+            font-size: 0.95rem;
+        }
+        @media (max-width: 680px) {
+            .card {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .media-box {
+                width: 100%;
+                aspect-ratio: 16 / 9;
+            }
         }
     </style>
 </head>
@@ -90,39 +138,120 @@
 
     <header>
         <h1>Argan Corvisy</h1>
-        <p class="subtitle">Mechatronics & Software Engineering</p>
+        <p class="subtitle">Mechatronics & Software Engineer</p>
+        <div class="links">
+            <a href="https://github.com/ArganMechatronic" target="_blank">GitHub</a>
+            <a href="https://www.linkedin.com/in/argan-corvisy/" target="_blank">LinkedIn</a>
+            <a href="mailto:argan.cor@gmail.com">Email</a>
+        </div>
     </header>
 
-    <section id="about">
-        <h2>About</h2>
-        <p>Focusing on robotics, autonomous platforms, hardware-software integration, and robust embedded codebases. Building clean, high-performance architecture from low-level microcontrollers up to high-level system logic.</p>
-    </section>
-
     <section id="projects">
-        <h2>Selected Projects</h2>
+        <h2>Engineering Projects & Experience</h2>
 
-        <div class="project">
-            <p class="project-title">Autonomous Harvesting Platform</p>
-            <p class="project-meta">C++ / Python / Linux / Git</p>
-            <p class="project-description">Refactored control systems software and navigation logic for an automated agricultural vehicle. Maintained modular stability across an active production codebase and verified systems over comprehensive automated testing pipelines.</p>
-            <a href="https://github.com/yourusername/project-repo" target="_blank">Source Code &rarr;</a>
+        <!-- Current / 2026 -->
+        <div class="card">
+            <div class="media-box">
+                <!-- REPLACE THIS DIV WITH: <img src="sudoku.gif" alt="Sudoku Solver"> -->
+                <div class="media-placeholder-text">[ Insert GIF / Photo Here ]</div>
+            </div>
+            <div class="content-box">
+                <p class="project-title">Multi-Threaded C++ Sudoku Solver</p>
+                <p class="project-meta">2026 | C++ / Multi-threading / Algorithms</p>
+                <p class="project-description">Developing a concurrent solver to evaluate multiple algorithms executing on independent threads. Exploring practical thread synchronization, mutexes, and efficient memory resource sharing in modern C++.</p>
+            </div>
         </div>
 
-        <div class="project">
-            <p class="project-title">Custom FPV Flight Architecture</p>
-            <p class="project-meta">Embedded C / FreeRTOS / SPI / ELRS</p>
-            <p class="project-description">Low-level firmware optimization and sensor hardware communication routines for customized flight controller platforms utilizing 2.4GHz ELRS transmission protocols.</p>
-            <a href="https://github.com/yourusername/project-repo" target="_blank">Source Code &rarr;</a>
+        <!-- Current / 2026 -->
+        <div class="card">
+            <div class="media-box">
+                <!-- REPLACE THIS DIV WITH: <img src="drone.jpg" alt="FPV Drone"> -->
+                <div class="media-placeholder-text">[ Insert GIF / Photo Here ]</div>
+            </div>
+            <div class="content-box">
+                <p class="project-title">Custom FPV Drone Build</p>
+                <p class="project-meta">2026 | Hardware Assembly / Electronics / FPV</p>
+                <p class="project-description">Assembling and configuring a custom Ukrainian FPV drone frame. Managing high-current power distribution, flight controller electronics integration, and tuning radio frequency transmission systems.</p>
+            </div>
         </div>
-    </section>
 
-    <section id="connect">
-        <h2>Connect</h2>
-        <p class="links">
-            <a href="https://github.com/yourusername" target="_blank">GitHub</a>
-            <a href="https://linkedin.com/in/yourusername" target="_blank">LinkedIn</a>
-            <a href="mailto:your.email@email.com">Email</a>
-        </p>
+        <!-- 2025 to 2026 -->
+        <div class="card">
+            <div class="media-box">
+                <!-- REPLACE THIS DIV WITH: <img src="agv-rover.jpg" alt="LeaderBrand AGV and Rover"> -->
+                <div class="media-placeholder-text">[ Insert GIF / Photo Here ]</div>
+            </div>
+            <div class="content-box">
+                <p class="project-title">AGV Harvesting Platform & Autonomous Rover</p>
+                <p class="project-meta">2025 to 2026 | LeaderBrand | C++ / OpenCV / UDP / MQTT</p>
+                <p class="project-description">Refactored software architecture and OpenCV vision pipelines for an automated harvesting vehicle, logging over 20km in autonomous testing. Developed a modular C++ UDP/MQTT software bridge. For a separate 4-wheeled rover project, designed electrical power distribution schematics involving fuses and relays while managing electromechanical integration.</p>
+            </div>
+        </div>
+
+        <!-- 2025 (Paused) -->
+        <div class="card">
+            <div class="media-box">
+                <!-- REPLACE THIS DIV WITH: <img src="freertos.jpg" alt="Raspberry Pi Pico FreeRTOS"> -->
+                <div class="media-placeholder-text">[ Insert GIF / Photo Here ]</div>
+            </div>
+            <div class="content-box">
+                <p class="project-title">FreeRTOS Real-Time Scheduling</p>
+                <p class="project-meta">2025 | Embedded C / FreeRTOS / RP2040</p>
+                <p class="project-description">Implemented custom task scheduling and real-time operating system concepts by porting FreeRTOS to a Raspberry Pi Pico microcontroller. Project currently paused to prioritize concurrent C++ software architecture.</p>
+            </div>
+        </div>
+
+        <!-- 2022 to 2025 -->
+        <div class="card">
+            <div class="media-box">
+                <iframe src="https://www.youtube.com/embed/A7SbZuiYZvM" title="Luci-Flow Project" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <div class="content-box">
+                <p class="project-title">Luci-Flow Automated Logistics System</p>
+                <p class="project-meta">2022 to 2025 | Fives Xcella | Robotics / Automation</p>
+                <p class="project-description">Contributed to the engineering, testing, and deployment of the Luci-Flow automated robotic system for high-efficiency industrial intralogistics and material handling.</p>
+            </div>
+        </div>
+
+        <!-- 2021 -->
+        <div class="card">
+            <div class="media-box">
+                <!-- REPLACE THIS DIV WITH: <img src="holonomic.jpg" alt="Holonomic Robot"> -->
+                <div class="media-placeholder-text">[ Insert GIF / Photo Here ]</div>
+            </div>
+            <div class="content-box">
+                <p class="project-title">Holonomic Mobile Robot with Forklift Mechanism</p>
+                <p class="project-meta">2021 | ENSIBS | Robotics / Kinematics / CAD</p>
+                <p class="project-description">Designed and prototyped an omnidirectional mobile robot featuring custom holonomic wheel kinematics and an integrated, functional forklift lifting mechanism during engineering studies.</p>
+            </div>
+        </div>
+
+        <!-- 2018 -->
+        <div class="card">
+            <div class="media-box">
+                <!-- REPLACE THIS DIV WITH: <img src="restoration.jpg" alt="Motorcycle and Peugeot Restoration"> -->
+                <div class="media-placeholder-text">[ Insert GIF / Photo Here ]</div>
+            </div>
+            <div class="content-box">
+                <p class="project-title">Classic Motorcycle & Peugeot 201 Restoration</p>
+                <p class="project-meta">2018 | Mechanical Engineering / Engine Rebuilds</p>
+                <p class="project-description">Executed complete mechanical restorations on vintage combustion engines and drivetrains, restoring an 1980s motorcycle and a classic pre-war Peugeot 201 to working order.</p>
+            </div>
+        </div>
+
+        <!-- 2017 -->
+        <div class="card">
+            <div class="media-box">
+                <!-- REPLACE THIS DIV WITH: <img src="porsche.jpg" alt="Porsche Lorient Racing"> -->
+                <div class="media-placeholder-text">[ Insert GIF / Photo Here ]</div>
+            </div>
+            <div class="content-box">
+                <p class="project-title">Motorsport Engineering Internship</p>
+                <p class="project-meta">2017 | Porsche Lorient Racing | Competition Operations</p>
+                <p class="project-description">Embedded with the race team in the paddock during high-level competitive motorsport weekends. Assisted with mechanical preparation, telemetry analysis, and rapid pit-lane vehicle maintenance.</p>
+            </div>
+        </div>
+
     </section>
 
 </body>
